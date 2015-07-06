@@ -1,0 +1,776 @@
+Current configuration : 16201 bytes
+!
+upgrade fpd auto
+version 12.2
+service timestamps debug uptime
+service timestamps log uptime
+service password-encryption
+service counters max age 5
+!
+hostname cisco
+!
+boot system flash sup-bootdisk:s3223-adventerprisek9_wan-mz.122-18.SXF10.bin
+enable secret 5 $1$5Yd7$LLPtvGS3CDtRNAgStAIN3.
+!
+username root password 7 0650590B4E431E
+aaa new-model
+aaa authentication login LOCALUSERS local
+!
+aaa session-id common
+clock timezone GMT -3
+ip subnet-zero
+!
+!
+!
+no ip domain-lookup
+ip domain-name cat.com.br
+ipv6 mfib hardware-switching replication-mode ingress
+mls ip multicast flow-stat-timer 9
+no mls flow ip
+no mls flow ipv6
+mls qos aggregate-policer mlsteste 128000 4000 4000 conform-action transmit exceed-action drop
+mls qos aggregate-policer avr 1000000 31000 31000 conform-action transmit exceed-action drop
+mls qos aggregate-policer europa 4000000 125000 125000 conform-action transmit exceed-action drop
+mls qos aggregate-policer ddfacil 2000000 62000 62000 conform-action transmit exceed-action drop
+mls qos aggregate-policer europa_01 3000000 93000 93000 conform-action transmit exceed-action drop
+mls qos aggregate-policer europa_02 1000000 31000 31000 conform-action transmit exceed-action drop
+mls qos aggregate-policer centurion 2000000 62000 62000 conform-action transmit exceed-action drop
+mls qos aggregate-policer pedro 3000000 93000 93000 conform-action transmit exceed-action drop
+mls qos
+no mls acl tcam share-global
+mls cef error action freeze
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+ mode sso
+ main-cpu
+  auto-sync running-config
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+spanning-tree backbonefast
+system flowcontrol bus auto
+diagnostic cns publish cisco.cns.device.diag_results
+diagnostic cns subscribe cisco.cns.device.diag_commands
+!
+vlan internal allocation policy ascending
+vlan access-log ratelimit 2000
+!
+class-map match-any europa
+  match protocol ip
+class-map match-all europe_02
+  match access-group name europe_02
+class-map match-all europe_01
+  match access-group name europe_01
+class-map match-all company
+  match access-group name company
+class-map match-all avr
+  match access-group name avr
+class-map match-any pedro
+  match protocol ip
+class-map match-all teste
+  match protocol ip
+  match access-group 11
+class-map match-all centurion
+  match access-group name centurion
+class-map match-all testein
+  match access-group 11
+!
+!
+policy-map clients
+  class centurion
+     police aggregate centurion
+policy-map europe
+  class europe
+     police aggregate europe
+policy-map company
+  class avr
+     police aggregate avr
+  class company
+     police aggregate company
+policy-map pedro
+  class pedro
+     police aggregate pedro
+policy-map teste
+  class teste
+     police aggregate mlsteste
+!
+!
+!
+!
+!
+interface GigabitEthernet1/1
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/2
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/3
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/4
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/5
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/6
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/7
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/8
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/9
+ no ip address
+ shutdown
+!
+interface GigabitEthernet3/1
+ switchport
+ switchport access vlan 4
+ no ip address
+!
+interface GigabitEthernet3/2
+ switchport
+ switchport access vlan 4
+ no ip address
+!
+interface GigabitEthernet3/3
+ switchport
+ switchport access vlan 4
+ no ip address
+!
+interface GigabitEthernet3/4
+ switchport
+ switchport access vlan 4
+ no ip address
+!
+interface GigabitEthernet3/5
+ switchport
+ switchport access vlan 4
+ no ip address
+!
+interface GigabitEthernet3/6
+ switchport
+ switchport access vlan 4
+ no ip address
+!
+interface GigabitEthernet3/7
+ switchport
+ switchport access vlan 4
+ no ip address
+!
+interface GigabitEthernet3/8
+ switchport
+ switchport access vlan 4
+ no ip address
+!
+interface GigabitEthernet3/9
+ switchport
+ switchport access vlan 4
+ no ip address
+!
+interface GigabitEthernet3/10
+ switchport
+ switchport access vlan 4
+ no ip address
+!
+interface GigabitEthernet3/11
+ switchport
+ switchport access vlan 4
+ no ip address
+!
+interface GigabitEthernet3/12
+ switchport
+ switchport access vlan 4
+ no ip address
+!
+interface GigabitEthernet3/13
+ switchport
+ switchport access vlan 7
+ no ip address
+!
+interface GigabitEthernet3/14
+ switchport
+ switchport access vlan 7
+ no ip address
+!
+interface GigabitEthernet3/15
+ switchport
+ switchport access vlan 7
+ no ip address
+!
+interface GigabitEthernet3/16
+ switchport
+ switchport access vlan 7
+ no ip address
+!
+interface GigabitEthernet3/17
+ switchport
+ switchport access vlan 7
+ no ip address
+!
+interface GigabitEthernet3/18
+ switchport
+ switchport access vlan 7
+ no ip address
+!
+interface GigabitEthernet3/19
+ switchport
+ switchport access vlan 7
+ no ip address
+!
+interface GigabitEthernet3/20
+ switchport
+ switchport access vlan 7
+ no ip address
+!
+interface GigabitEthernet3/21
+ switchport
+ switchport access vlan 7
+ no ip address
+!
+interface GigabitEthernet3/22
+ switchport
+ switchport access vlan 7
+ no ip address
+!
+interface GigabitEthernet3/23
+ switchport
+ switchport access vlan 4
+ no ip address
+!
+interface GigabitEthernet3/24
+ switchport
+ switchport access vlan 7
+ no ip address
+!
+interface GigabitEthernet3/25
+ switchport
+ no ip address
+!
+interface GigabitEthernet3/26
+ switchport
+ no ip address
+!
+interface GigabitEthernet3/27
+ switchport
+ no ip address
+!
+interface GigabitEthernet3/28
+ switchport
+ no ip address
+!
+interface GigabitEthernet3/29
+ switchport
+ no ip address
+!
+interface GigabitEthernet3/30
+ switchport
+ switchport access vlan 5
+ no ip address
+!
+interface GigabitEthernet3/31
+ switchport
+ switchport access vlan 5
+ no ip address
+!
+interface GigabitEthernet3/32
+ switchport
+ no ip address
+!
+interface GigabitEthernet3/33
+ switchport
+ no ip address
+!
+interface GigabitEthernet3/34
+ switchport
+ no ip address
+!
+interface GigabitEthernet3/35
+ switchport
+ no ip address
+!
+interface GigabitEthernet3/36
+ no ip address
+!
+interface GigabitEthernet3/37
+ switchport
+ no ip address
+!
+interface GigabitEthernet3/38
+ switchport
+ no ip address
+!
+interface GigabitEthernet3/39
+ description interconnection with rack FAL 2 andar
+ switchport
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 352
+ switchport mode trunk
+ no ip address
+!
+interface GigabitEthernet3/40
+ switchport
+ no ip address
+!
+interface GigabitEthernet3/41
+ switchport
+ no ip address
+!
+interface GigabitEthernet3/42
+ switchport
+ no ip address
+!
+interface GigabitEthernet3/43
+ switchport
+ no ip address
+!
+interface GigabitEthernet3/44
+ switchport
+ no ip address
+!
+interface GigabitEthernet3/45
+ switchport
+ no ip address
+!
+interface GigabitEthernet3/46
+ no ip address
+ no ip redirects
+ ip nat outside
+!
+interface GigabitEthernet3/47
+ switchport
+ switchport access vlan 10
+ no ip address
+!
+interface GigabitEthernet3/48
+ no ip address
+!
+interface GigabitEthernet4/1
+ switchport
+ switchport access vlan 5
+ no ip address
+ mls qos vlan-based
+!
+interface GigabitEthernet4/2
+ switchport
+ switchport access vlan 9
+ no ip address
+!
+interface GigabitEthernet4/3
+ switchport
+ switchport access vlan 5
+ no ip address
+!
+interface GigabitEthernet4/4
+ switchport
+ switchport access vlan 5
+ no ip address
+!
+interface GigabitEthernet4/5
+ switchport
+ switchport access vlan 5
+ no ip address
+!
+interface GigabitEthernet4/6
+ switchport
+ switchport access vlan 5
+ no ip address
+!
+interface GigabitEthernet4/7
+ switchport
+ switchport access vlan 5
+ no ip address
+!
+interface GigabitEthernet4/8
+ switchport
+ switchport access vlan 5
+ no ip address
+!
+interface GigabitEthernet4/9
+ switchport
+ switchport access vlan 9
+ no ip address
+!
+interface GigabitEthernet4/10
+ switchport
+ switchport access vlan 5
+ no ip address
+!
+interface GigabitEthernet4/11
+ switchport
+ switchport access vlan 5
+ no ip address
+!
+interface GigabitEthernet4/12
+ switchport
+ switchport access vlan 9
+ no ip address
+!
+interface GigabitEthernet4/13
+ switchport
+ switchport access vlan 8
+ no ip address
+!
+interface GigabitEthernet4/14
+ switchport
+ switchport access vlan 4
+ no ip address
+!
+interface GigabitEthernet4/15
+ switchport
+ switchport access vlan 9
+ no ip address
+!
+interface GigabitEthernet4/16
+ switchport
+ switchport access vlan 4
+ no ip address
+!
+interface GigabitEthernet4/17
+ switchport
+ no ip address
+!
+interface GigabitEthernet4/18
+ switchport
+ no ip address
+!
+interface GigabitEthernet4/19
+ switchport
+ no ip address
+!
+interface GigabitEthernet4/20
+ switchport
+ switchport access vlan 11
+ no ip address
+!
+interface GigabitEthernet4/21
+ switchport
+ no ip address
+!
+interface GigabitEthernet4/22
+ switchport
+ no ip address
+!
+interface GigabitEthernet4/23
+ switchport
+ no ip address
+!
+interface GigabitEthernet4/24
+ switchport
+ no ip address
+!
+interface GigabitEthernet4/25
+ switchport
+ no ip address
+!
+interface GigabitEthernet4/26
+ switchport
+ no ip address
+!
+interface GigabitEthernet4/27
+ switchport
+ no ip address
+!
+interface GigabitEthernet4/28
+ switchport
+ no ip address
+!
+interface GigabitEthernet4/29
+ switchport
+ switchport access vlan 9
+ no ip address
+!
+interface GigabitEthernet4/30
+ description INTERNET
+ ip address 172.31.235.2 255.255.255.252
+ ip nat inside
+!
+interface GigabitEthernet4/31
+ switchport
+ no ip address
+!
+interface GigabitEthernet4/32
+ switchport
+ no ip address
+!
+interface GigabitEthernet4/33
+ switchport
+ switchport access vlan 9
+ no ip address
+!
+interface GigabitEthernet4/34
+ description Link SP VOX
+ switchport
+ switchport access vlan 12
+ no ip address
+!
+interface GigabitEthernet4/35
+ description router core sjudas
+ switchport
+ switchport access vlan 11
+ no ip address
+!
+interface GigabitEthernet4/36
+ switchport
+ switchport access vlan 8
+ no ip address
+ mls qos vlan-based
+!
+interface GigabitEthernet4/37
+ description Interface EUR
+ switchport
+ switchport access vlan 8
+ no ip address
+ speed 100
+ duplex full
+ mls qos vlan-based
+!
+interface GigabitEthernet4/38
+ switchport
+ switchport access vlan 8
+ no ip address
+!
+interface GigabitEthernet4/39
+ switchport
+ switchport access vlan 8
+ no ip address
+!
+interface GigabitEthernet4/40
+ description AS5300 VOICE
+ switchport
+ switchport access vlan 9
+ no ip address
+ mls qos vlan-based
+!
+interface GigabitEthernet4/41
+ switchport
+ no ip address
+!
+interface GigabitEthernet4/42
+ switchport
+ no ip address
+!
+interface GigabitEthernet4/43
+ switchport
+ no ip address
+!
+interface GigabitEthernet4/44
+ switchport
+ switchport access vlan 4
+ no ip address
+!
+interface GigabitEthernet4/45
+ switchport
+ switchport access vlan 8
+ no ip address
+ mls qos vlan-based
+!
+interface GigabitEthernet4/46
+ switchport
+ switchport access vlan 4
+ no ip address
+!
+interface GigabitEthernet4/47
+ switchport
+ switchport access vlan 9
+ no ip address
+!
+interface GigabitEthernet4/48
+ ip address 201.20.13.4 255.255.255.248
+ ip nat outside
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan2
+ no ip address
+!
+interface Vlan4
+ description GW 204.49
+ ip address 200.219.204.60 255.255.255.240 secondary
+ ip address 200.219.204.51 255.255.255.240 secondary
+ ip address 200.219.204.49 255.255.255.240
+ no ip redirects
+!
+interface Vlan5
+ description Out company
+ ip address 20.0.0.1 255.255.255.240
+ ip access-group 166 out
+ ip nat inside
+ service-policy output company
+!
+interface Vlan6
+ description Client1
+ ip address 201.20.13.17 255.255.255.240
+ shutdown
+ service-policy output client1
+!
+interface Vlan7
+ description GW 219.17
+ ip address 200.219.219.17 255.255.255.240
+!
+interface Vlan8
+ description GW 13.9
+ ip address 201.20.13.9 255.255.255.248
+!
+interface Vlan9
+ description GW 13.33
+ ip address 172.30.172.1 255.255.255.0 secondary
+ ip address 201.20.13.33 255.255.255.224
+ ip access-group cs in
+ no ip redirects
+ ip nat inside
+ service-policy output clients
+!
+interface Vlan10
+ description vlan 10 SPAN
+ ip address 90.15.15.1 255.255.255.0
+!
+interface Vlan11
+ description Links Serials PoP
+ ip address 172.172.172.1 255.255.255.0
+ ip nat inside
+!
+interface Vlan12
+ description IP VOX
+ ip address 172.17.172.1 255.255.255.0
+ ip nat inside
+!
+interface Vlan352
+ description vlan 2950 FAL
+ ip address 10.10.10.2 255.255.255.0
+!
+ip nat inside source static 20.0.0.6 200.219.204.60
+ip nat inside source static 20.0.0.2 200.219.204.51
+ip nat inside source static 192.168.237.2 201.20.13.49
+ip nat inside source static 20.0.0.5 201.20.13.50
+ip classless
+ip route 0.0.0.0 0.0.0.0 201.20.13.1
+ip route 10.0.0.4 255.255.255.252 201.20.13.11
+ip route 10.0.0.16 255.255.255.252 201.20.13.11
+ip route 10.0.0.20 255.255.255.252 172.172.172.2
+ip route 10.0.0.24 255.255.255.252 172.172.172.3
+ip route 172.18.0.8 255.255.255.252 201.20.13.11
+ip route 172.18.0.16 255.255.255.252 201.20.13.11
+ip route 172.18.0.24 255.255.255.252 172.172.172.3
+ip route 172.30.172.0 255.255.255.0 201.20.13.11
+ip route 172.168.0.0 255.255.255.252 201.20.13.11
+ip route 172.168.0.20 255.255.255.252 172.172.172.2
+ip route 192.168.0.0 255.255.255.192 20.0.0.2
+ip route 192.168.111.0 255.255.255.128 20.0.0.2
+ip route 192.168.222.0 255.255.255.128 20.0.0.2
+ip route 192.168.237.0 255.255.255.0 172.31.235.1
+ip route 201.20.13.16 255.255.255.240 201.20.13.14
+!
+no ip http server
+!
+ip access-list standard InternetDDF
+ permit 20.0.0.2
+ permit 201.68.44.44
+ip access-list standard range_ata
+ permit 20.0.0.14
+ permit 172.30.172.2
+ permit 10.0.0.20 0.0.0.3
+ permit 10.0.0.24 0.0.0.3
+ permit 172.172.172.0 0.0.0.255
+ permit 172.17.172.0 0.0.0.255
+!
+ip access-list extended avr
+ permit ip any host 200.219.204.60
+ permit ip any host 20.0.0.6
+ip access-list extended centurion
+ permit ip any host 201.20.13.38
+ip access-list extended cs
+ deny   ip host 201.20.13.47 200.219.219.16 0.0.0.15
+ deny   ip host 201.20.13.47 200.219.204.48 0.0.0.15
+ deny   ip host 201.20.13.47 201.20.13.8 0.0.0.7
+ deny   ip host 201.20.13.47 201.20.13.16 0.0.0.15
+ deny   ip host 201.20.13.47 host 201.20.13.34
+ deny   ip host 201.20.13.47 host 201.20.13.35
+ deny   ip host 201.20.13.47 host 201.20.13.36
+ deny   ip host 201.20.13.47 host 201.20.13.37
+ deny   ip host 201.20.13.47 host 201.20.13.38
+ deny   ip host 201.20.13.47 host 201.20.13.39
+ deny   ip host 201.20.13.47 host 201.20.13.40
+ deny   ip host 201.20.13.47 host 201.20.13.41
+ permit ip any any
+ip access-list extended company
+ permit ip any host 20.0.0.2
+ permit ip any host 200.219.204.51
+ip access-list extended company_up
+ permit ip host 20.0.0.2 any
+ permit ip host 200.219.204.51 any
+ip access-list extended company_01
+ permit ip any host 201.20.13.18
+ip access-list extended company_02
+ permit ip any host 201.20.13.28
+ permit ip any host 201.20.13.29
+ permit ip any host 201.20.13.30
+ip access-list extended vmware
+ deny   ip host 201.20.13.47 host 200.219.219.28 log
+ deny   ip host 201.20.13.47 any
+ deny   ip any host 201.20.13.47
+ permit ip any any
+!
+access-list 10 permit 20.0.0.0 0.0.0.255
+access-list 11 permit 201.20.13.11
+access-list 21 permit any log
+access-list 102 permit ip host 20.0.0.2 any
+access-list 103 permit ip host 20.0.0.3 any
+access-list 104 permit ip host 20.0.0.9 any
+access-list 104 permit ip host 20.0.0.10 any
+access-list 104 permit ip host 20.0.0.11 any
+access-list 104 permit ip host 20.0.0.12 any
+access-list 104 permit ip host 20.0.0.13 any
+access-list 104 permit ip host 20.0.0.14 any
+access-list 109 permit ip host 201.20.13.11 any
+access-list 110 permit ip any any
+access-list 166 permit ip host 200.219.204.57 192.168.0.0 0.0.0.63
+access-list 166 deny   ip any 192.168.0.0 0.0.0.63
+access-list 166 permit ip any any
+!
+snmp-server community public RO 21
+snmp-server enable traps tty
+snmp-server enable traps envmon fan shutdown supply temperature status
+!
+radius-server source-ports 1645-1646
+!
+control-plane
+!
+!
+!
+dial-peer cor custom
+!
+!
+!
+banner motd ^C
+#######################################################################
+# This is my banner                                                   #
+#######################################################################
+^C
+!
+line con 0
+line vty 0 4
+ login authentication LOCALUSERS
+ transport input ssh
+!
+no cns aaa enable
+end
